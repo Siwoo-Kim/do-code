@@ -10,6 +10,9 @@ import java.util.Map;
 @RequestMapping("/rest/login")
 public class LoginController {
 
+
+
+
     private static final Login authLogin = new Login("guest@email.com","1234");
 
     @EqualsAndHashCode(of={"email","password"})
