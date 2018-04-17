@@ -13,7 +13,8 @@ import java.util.Locale;
 public class HomeController {
 
     @GetMapping
-    public String home() {
+    public String home(Locale locale) {
+        System.out.println(locale.getCountry());
         System.out.println("Handled");
         return "index";
     }

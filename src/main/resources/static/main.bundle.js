@@ -37,21 +37,15 @@ module.exports = "\n<sw-ad-navbar></sw-ad-navbar>\n<div class=\"container-fluid\
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdBootstrapComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__service_ad_product_respository_service__ = __webpack_require__("./src/app/angular-developer/service/ad-product-respository.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
 
 var AdBootstrapComponent = /** @class */ (function () {
-    function AdBootstrapComponent(productRepository) {
-        this.productRepository = productRepository;
+    function AdBootstrapComponent() {
     }
     AdBootstrapComponent.prototype.ngOnInit = function () { };
     AdBootstrapComponent = __decorate([
@@ -59,8 +53,7 @@ var AdBootstrapComponent = /** @class */ (function () {
             selector: 'sw-ad-bootstrap',
             template: __webpack_require__("./src/app/angular-developer/ad-bootstrap.component.html"),
             styles: [__webpack_require__("./src/app/angular-developer/ad-bootstrap.component.css")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__service_ad_product_respository_service__["a" /* AdProductRepository */]])
+        })
     ], AdBootstrapComponent);
     return AdBootstrapComponent;
 }());
@@ -179,7 +172,7 @@ module.exports = ""
 /***/ "./src/app/angular-developer/ad-home/ad-home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row carousel-holder\" style=\"padding: 30px\">\n  <div class=\"col-12\">\n    <sw-ad-carousel></sw-ad-carousel>\n  </div>\n</div>\n<div class=\"mt-5 container-fluid\"\n     style=\"padding: 0;margin: 5px\"\n     fxLayout=\"row wrap\"\n     fxLayoutAlign=\"center\">\n  <div *ngFor=\"let product of products\" fxFlex=\"30%\">\n    <sw-ad-product-item [product]=\"product\"></sw-ad-product-item>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row carousel-holder\" style=\"padding: 30px\">\n  <div class=\"col-12\">\n    <sw-ad-carousel></sw-ad-carousel>\n  </div>\n</div>\n<div class=\"col-12\" fxLayout fxLayoutAlign=\"center center\">\n  <mat-form-field\n    style=\"width: 250px\"\n    color=\"primary\" hintLabel=\"Enter title\">\n    <input matInput\n           name=\"title\"\n           maxlength=\"10\"\n           [formControl]=\"titleFilter\"\n           placeholder=\"Filtering by title\">\n    <mat-hint align=\"end\">{{ titleFilter.value?.length}} / 10</mat-hint>\n  </mat-form-field>\n</div>\n<div class=\"mt-5 container-fluid\"\n     style=\"padding: 0;margin: 5px\"\n     fxLayout=\"row wrap\"\n     fxLayoutAlign=\"center\">\n  <div *ngFor=\"let product of products | filter : 'title' : this.criteria\"\n       fxFlex=\"30%\">\n    <sw-ad-product-item [product]=\"product\"></sw-ad-product-item>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -191,6 +184,7 @@ module.exports = "<div class=\"row carousel-holder\" style=\"padding: 30px\">\n 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__service_ad_product_respository_service__ = __webpack_require__("./src/app/angular-developer/service/ad-product-respository.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -203,19 +197,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AdHomeComponent = /** @class */ (function () {
     function AdHomeComponent(router, productRepository) {
         this.router = router;
         this.productRepository = productRepository;
-        this.onLoad = false;
+        this.titleFilter = new __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormControl */]();
     }
     AdHomeComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.productRepository.getProducts()
             .subscribe(function (_products) { return _this.products = _products; });
-    };
-    AdHomeComponent.prototype.onClickGo = function () {
-        this.router.navigate(['/angular-developer', 'product']);
+        this.titleFilter.valueChanges
+            .debounceTime(100)
+            .subscribe(function (value) { return _this.criteria = value; }, function (error) { return console.log(error); });
     };
     AdHomeComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -423,7 +418,7 @@ module.exports = "\r\nmat-form-field {\r\n  width: 100%;\r\n}\r\n"
 /***/ "./src/app/angular-developer/ad-search/ad-search.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<form style=\"padding: 5px;margin: 5px\">\n  <mat-form-field>\n    <input matInput placeholder=\"Product Name\">\n  </mat-form-field>\n  <mat-form-field>\n    <input matInput placeholder=\"Category Name\">\n  </mat-form-field>\n  <button\n    mat-raised-button\n    color=\"warn\"\n    type=\"button\"\n    class=\"btn-block\">Search</button>\n</form>\n"
+module.exports = "<form #f=\"ngForm\"\n  novalidate\n  style=\"padding: 5px;margin: 5px\">\n  <mat-form-field color=\"primary\" hintLabel=\"Enter title\">\n    <input matInput\n           name=\"title\"\n           ngModel\n           maxlength=\"10\"\n           #titleInput=\"ngModel\"\n           placeholder=\"title\">\n    <mat-hint align=\"end\">{{ titleInput.value?.length}} / 10</mat-hint>\n    <mat-error>Why?</mat-error>\n  </mat-form-field>\n  <mat-form-field color=\"primary\">\n    <input matInput\n           type=\"number\"\n           name=\"price\"\n           ngModel\n           placeholder=\"price\">\n    <mat-hint>Enter Price</mat-hint>\n  </mat-form-field>\n  <mat-form-field color=\"primary\" hintLabel=\"Enter category\">\n    <input matInput\n           name=\"category\"\n           ngModel\n           maxlength=\"10\"\n           #categoryInput=\"ngModel\"\n           placeholder=\"category\">\n    <mat-hint align=\"end\">{{ categoryInput.value?.length}} / 10</mat-hint>\n  </mat-form-field>\n  <button mat-raised-button color=\"warn\" style=\"margin-top: 5px\" class=\"btn-block\">Search</button>\n</form>\n"
 
 /***/ }),
 
@@ -545,12 +540,14 @@ var AdStarsComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ad_home_ad_home_component__ = __webpack_require__("./src/app/angular-developer/ad-home/ad-home.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ad_product_detail_ad_product_detail_component__ = __webpack_require__("./src/app/angular-developer/ad-product-detail/ad-product-detail.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -582,6 +579,8 @@ var AngularDeveloperModule = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_14__angular_forms__["d" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_14__angular_forms__["i" /* ReactiveFormsModule */],
                 __WEBPACK_IMPORTED_MODULE_13__shared_shared_module__["a" /* SharedModule */],
                 __WEBPACK_IMPORTED_MODULE_10__service_ad_service_module__["a" /* AdServiceModule */],
                 __WEBPACK_IMPORTED_MODULE_9__angular_router__["c" /* RouterModule */].forChild(routes)
@@ -674,6 +673,42 @@ var Product = /** @class */ (function () {
         this.categories = categories;
     }
     return Product;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/angular-developer/pipes/FilterPipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FilterPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var FilterPipe = /** @class */ (function () {
+    function FilterPipe() {
+    }
+    FilterPipe.prototype.transform = function (data, byField, filterValue) {
+        if (!byField || !filterValue) {
+            return data;
+        }
+        return data.filter(function (_element) {
+            var value = _element[byField] != null ? _element[byField].toLowerCase() : null;
+            filterValue = filterValue.toLowerCase();
+            return value.indexOf(filterValue) >= 0;
+        });
+    };
+    FilterPipe = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["V" /* Pipe */])({ name: 'filter' })
+    ], FilterPipe);
+    return FilterPipe;
 }());
 
 
@@ -1001,7 +1036,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_5__shared_shared_module__["a" /* SharedModule */],
                 __WEBPACK_IMPORTED_MODULE_6__routing_module__["a" /* RoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_9__angular_forms__["c" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_9__angular_forms__["d" /* FormsModule */],
                 /*testing*/
                 __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* HttpModule */],
             ],
@@ -1293,6 +1328,7 @@ var MainComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__header_header_component__ = __webpack_require__("./src/app/shared/header/header.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_developer_pipes_FilterPipe__ = __webpack_require__("./src/app/angular-developer/pipes/FilterPipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1306,9 +1342,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var shared = [
     __WEBPACK_IMPORTED_MODULE_3__material_module__["a" /* MaterialModule */],
     __WEBPACK_IMPORTED_MODULE_5__header_header_component__["a" /* HeaderComponent */],
+    __WEBPACK_IMPORTED_MODULE_7__angular_developer_pipes_FilterPipe__["a" /* FilterPipe */]
 ];
 var SharedModule = /** @class */ (function () {
     function SharedModule() {
@@ -1317,6 +1355,7 @@ var SharedModule = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["K" /* NgModule */])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_1__main_main_component__["a" /* MainComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__angular_developer_pipes_FilterPipe__["a" /* FilterPipe */],
                 __WEBPACK_IMPORTED_MODULE_0__404_404_component__["a" /* _404Component */],
                 __WEBPACK_IMPORTED_MODULE_5__header_header_component__["a" /* HeaderComponent */],
             ],
@@ -1380,7 +1419,7 @@ var UdemyMaterialModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
                 __WEBPACK_IMPORTED_MODULE_3__shared_shared_module__["a" /* SharedModule */],
-                __WEBPACK_IMPORTED_MODULE_11__angular_forms__["c" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_11__angular_forms__["d" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_12__angular_http__["b" /* HttpModule */],
                 __WEBPACK_IMPORTED_MODULE_10__um_routing_module__["a" /* UdemyMaterialRoutingModule */],
             ],
